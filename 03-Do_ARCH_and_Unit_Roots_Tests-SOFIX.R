@@ -1,6 +1,6 @@
-# # Forecasting Volatility of SOFIX Index with GARCH Models
-# Paper at mdpi
-#
+# Econometric Analysis of SOFIX Index with GARCH Models 
+# Paper at mdpi, Journal of Risk and Financial Management
+
 # This script will test for arch effects for a given vector of returns, given
 # lags and save results in .html file.
 

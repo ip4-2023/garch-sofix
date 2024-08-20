@@ -1,6 +1,6 @@
-# # Forecasting Volatility of SOFIX Index with GARCH Models
-# Paper at mdpi
-#
+# Econometric Analysis of SOFIX Index with GARCH Models 
+# Paper at mdpi, Journal of Risk and Financial Management
+
 # This script will estimate five simple (without AR and MA components included in mean equation) garch models, with six different distributions,
 # and save estimation results in a .html file
 

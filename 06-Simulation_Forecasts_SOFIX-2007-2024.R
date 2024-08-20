@@ -1,5 +1,6 @@
-# Econometric Analysis of SOFIX Index with GARCH Models 
+## # Econometric Analysss of SOFIX Index with GARCH Models
 # Paper at mdpi, Journal of Risk and Financial Management
+#
 # 
 # This script will use the best garch model from previous script and simulate
 # many return series into the future. After the simulations, the code calculates 
@@ -7,11 +8,11 @@
 
 ## OPTIONS
 
-set.seed(20200315) # fix seed for simulations (20200315 replicates the paper's results)
+set.seed(20200315) # fix seed for simulations 
 n_sim <- 5000 # number of simulations (5000 was used in paper,
 # be aware that this code is memory intensive and might freeze your computer. 
 # Increase n_sim at your own risk!!
-n_days_ahead <- 75*365 # Number of days ahead to simulate (10*365 in paper)
+n_days_ahead <- 75*365 # Number of days ahead to simulate 
 
 ## END OPTIONS
 
@@ -29,11 +30,11 @@ my_d <- dirname(rstudioapi::getActiveDocumentContext()$path)
 setwd(my_d)
 
 # get price and model data
-df_prices <- read_rds('data/SOFIX.rds')
+df_prices <- read_rds('data/SOFIX_2007-2024.rds')
 
 df_prices$ref.date <- as.Date(df_prices$ref.date, format = "%Y-%m-%d")
 
-my_garch <- read_rds('data/garch_model5X6.rds')
+my_garch <- read_rds('data/garch_model5X6_2007-2024.rds')
 
 
 series_name <- df_prices$series_name[1]
@@ -57,7 +58,7 @@ tab_prob <- df_sim %>%
 
 
 
-n_years_back <- 25
+n_years_back <- 20
 df_prices_temp <- df_prices %>%
   dplyr::filter(ref.date > max(ref.date) - n_years_back*365)
 
@@ -91,15 +92,16 @@ p1 <- ggplot() +
 
 
 # plot graphics
-x11(); p1 ; ggsave(paste0('figs/fig04a', series_name, '_price_simulation.png'))
+x11(); p1 ; ggsave(paste0('figs/fig04a_6', series_name, '_price_simulation_6.png'))
 
 
 
 my_idx_date <- first(which(tab_prob$prob > 0.5))
 df_date <- tibble(idx = c(first(which(tab_prob$prob > 0.001)),
                           first(which(tab_prob$prob > 0.5)),
-                          first(which(tab_prob$prob > 0.75)),
-                          first(which(tab_prob$prob > 0.90))),
+                          first(which(tab_prob$prob > 0.70)),
+                          first(which(tab_prob$prob > 0.90)),
+                          first(which(tab_prob$prob > 0.95))),
                   ref_date = tab_prob$ref_date[idx],
                   prob = tab_prob$prob[idx],
                   my_text = paste0(format(ref_date, '%m/%d/%Y'),
@@ -117,7 +119,7 @@ df_textbox <- tibble(ref_date = df_date$ref_date[2],
 
 p2 <- ggplot(tab_prob, aes(x = ref_date, y = prob) ) + 
   geom_line(size = 2) + 
-  labs(title = paste0('Probabilities of ', series_name, ' Reaching its Historical Peak'),
+  labs(title = paste0('Probabilities of ', series_name, ' Reaching its Historical Peak, starting point from 2007'),
        subtitle = paste0('Calculations based on simulations of ',
                          my_garch_name, 
                          ' model'),
@@ -140,7 +142,7 @@ p2 <- ggplot(tab_prob, aes(x = ref_date, y = prob) ) +
                hjust = 0) + 
   theme_bw(base_family = "Times New Roman")
 
-x11(); p2 ; ggsave(paste0('figs/fig04b', series_name, '_prob_reaching_peak.png'))
+x11(); p2 ; ggsave(paste0('figs/fig04b_6', series_name, '_prob_reaching_peak_6.png'))
 
 
 

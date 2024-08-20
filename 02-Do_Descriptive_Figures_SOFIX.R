@@ -1,5 +1,5 @@
-# Forecasting Volatility of SOFIX Index with GARCH Models
-# Paper at mdpi
+# Econometric Analysis of SOFIX Index with GARCH Models 
+# Paper at mdpi, Journal of Risk and Financial Management
 #
 
 

@@ -1,17 +1,17 @@
-# Econometric Analysis of SOFIX Index with GARCH Models 
+# Econometric Analysis of SOFIX Index with GARCH Models
 # Paper at mdpi, Journal of Risk and Financial Management
 #
 # This script will estimate five comlete (with AR and MA components included in mean equation) garch models, with six different distributions,
 # and save estimation results in a .html file
 
 # OPTIONS
-ar_lag <- 1 # lag used for ar term in mean equation (0 in paper)
-ma_lag <- 1 # lag used for ma term in mean equation (0 in paper)
-arch_lag <- 2 # lag in arch effect (1 in paper)
-garch_lag <- 1 # lag in garch effect (1 in paper)
-models_to_estimate <- c('eGARCH', 'csGARCH') # see rugarch manual for more
-distribution_to_estimate <-  c( 'std', 'sstd') # distribution used in all models
-my_html_file <- 'tabs/tab08_1_full-estimation_SOFIX-5X6.html' # where to save html file?
+ar_lag <- 1 # lag used for ar term in mean equation 
+ma_lag <- 1 # lag used for ma term in mean equation 
+arch_lag <- 1 # lag in arch effect 
+garch_lag <- 1 # lag in garch effect 
+models_to_estimate <- c('csGARCH') # see rugarch manual for more
+distribution_to_estimate <-  c( 'std') # distribution used in all models
+my_html_file <- 'tabs/tab09_SOFIX_2000-2020.html' # where to save html file?
 
 # END OPTIONS
 
@@ -41,7 +41,7 @@ df_grid <- expand_grid(ar_lag,
 
 # get price data
 
-df_prices <- read_excel("data/Sofix.xls", col_types = c("date", 
+df_prices <- read_excel("data/SOFIX_2000-2020.xlsx", col_types = c("date", 
                                                           "text", "numeric", "numeric", "numeric", "numeric", 
                                                           "text"))
 
@@ -64,9 +64,9 @@ estimate_garch <- function(ar_lag,
                                                         ma_lag)), 
                         distribution.model = distribution_to_estimate)
   
-  my_garch <- ugarchfit(spec = my_spec, data = df_prices$log_ret)
+  my_garch_2000_2020 <- ugarchfit(spec = my_spec, data = df_prices$log_ret)
   
-  return(my_garch)
+  return(my_garch_2000_2020)
 }
 
 # estimate all models
